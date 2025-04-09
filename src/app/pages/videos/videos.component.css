@@ -1,0 +1,339 @@
+
+/* Cambiar colores del Header con animación */
+.streaming-navbar {
+  animation: cambioColor 12s ease-in-out infinite; /* Suaviza la animación */
+  color: #fff; /* Color de texto */
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e0a32; /* Fondo predeterminado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: -22px;
+  width: 100%;
+  margin-left: -30px;
+}
+
+/* Efecto hover para el Navbar */
+.streaming-navbar:hover {
+  background-color: #444; /* Fondo más suave al pasar el ratón */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Sección de logo */
+.streaming-logo {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* Menú de usuario */
+.streaming-user-menu {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para el botón de Logout y Upload */
+.upload-buttons button, .streaming-logout-button {
+  margin-left: 15px;
+  font-weight: 600;
+}
+
+/* Estilos para los botones */
+.streaming-upload-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.streaming-upload-button:hover {
+  background-color: #218838;
+}
+
+.streaming-logout-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.streaming-logout-button:hover {
+  background-color: #c82333;
+}
+
+/* Contenido principal */
+.streaming-container {
+  padding: 20px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de la grilla de videos */
+.streaming-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajuste de columnas */
+  gap: 25px;
+}
+
+/* Estilo para las tarjetas de video */
+.streaming-video-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+.streaming-video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.streaming-video-thumbnail img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.streaming-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 26px;
+  display: none;
+}
+
+.streaming-video-thumbnail:hover .streaming-play-overlay {
+  display: block;
+}
+
+/* Modal para subir video */
+.streaming-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.streaming-modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.streaming-modal-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* Modal para reproducir video */
+.streaming-video-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.streaming-video-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.streaming-video-modal-close {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Sección de videos recomendados */
+.streaming-recommended-section, .streaming-trending-section {
+  margin-top: 50px;
+}
+
+.streaming-recommended-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.streaming-recommended-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.streaming-recommended-card:hover {
+  transform: translateY(-5px);
+}
+
+.streaming-video-thumbnail img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Animación de colores de fondo */
+@keyframes cambioColor {
+  0% { background-color: #6a11cb; }
+  25% { background-color: #2575fc; }
+  50% { background-color: #ff0000; }
+  75% { background-color: #cb4121; }
+  100% { background-color: #1e0a32; }
+}
+
+.streaming-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.streaming-form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  display: block;
+}
+
+.streaming-form-group input[type="text"],
+.streaming-form-group textarea,
+.streaming-form-group input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.streaming-form-group input:focus,
+.streaming-form-group textarea:focus {
+  outline: none;
+  border-color: #6a11cb;
+}
+
+.upload-progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.upload-progress-fill {
+  height: 100%;
+  background-color: #6a11cb;
+  transition: width 0.3s ease-in-out;
+}
+
+.upload-progress-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+  text-align: right;
+}
+
+.streaming-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.streaming-modal-cancel,
+.streaming-modal-submit {
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.streaming-modal-cancel {
+  background-color: #bbb;
+  color: #fff;
+}
+
+.streaming-modal-cancel:hover {
+  background-color: #999;
+}
+
+.streaming-modal-submit {
+  background-color: #6a11cb;
+  color: #fff;
+}
+
+.streaming-modal-submit:hover {
+  background-color: #4c0ea3;
+}
+
+/* Animación suave de aparición */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplica animación a los títulos de secciones */
+.streaming-videos-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1e0a32;
+  text-align: center;
+  margin: 40px 0 20px;
+  position: relative;
+  animation: fadeInUp 1s ease-in-out both;
+}
+
+/* Línea decorativa debajo del título */
+.streaming-videos-title::after {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background: #6a11cb;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 3px;
+}
