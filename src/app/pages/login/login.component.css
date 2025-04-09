@@ -1,0 +1,131 @@
+/* Estructura general */
+.contenedor-autenticacion-streaming {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  justify-content: center; /* Centra el formulario horizontalmente */
+  align-items: center; /* Centra el formulario verticalmente */
+  position: relative;
+  overflow: hidden; /* Asegura que no haya desbordes */
+}
+
+/* Capa de fondo detrás del formulario */
+.contenedor-autenticacion-streaming::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(8, 9, 61); /* Aquí puedes cambiar el color de fondo */
+  z-index: -1; /* Asegura que el color de fondo esté detrás del formulario */
+}
+
+/* Lado izquierdo - formulario */
+.capa-autenticacion-streaming {
+  width: 100%;
+  max-width: 450px; /* Limita el ancho máximo del formulario */
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Centra el contenido de forma horizontal */
+  animation: cambioColor 10s infinite linear;
+  color: white;
+  margin: 0 auto; /* Asegura que se mantenga centrado */
+  text-align: center;
+}
+
+/* Lado derecho - imagen */
+.contenedor-autenticacion-streaming::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Coloca la imagen detrás del formulario */
+}
+
+/* Encabezado */
+.encabezado-streaming {
+  margin-bottom: 2rem;
+}
+
+.marca-streaming {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+/* Título */
+.titulo-autenticacion {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulario */
+.formulario-autenticacion {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Campos de entrada */
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+}
+
+.entrada-formulario {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.entrada-formulario.input-invalid {
+  border: 2px solid red;
+}
+
+.error-formulario {
+  font-size: 0.85rem;
+  color: #ffb3b3;
+}
+
+/* Botón de envío */
+.boton-enviar-autenticacion {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.boton-enviar-autenticacion:hover {
+  transform: scale(1.05);
+}
+
+/* Enlace registro */
+.meta-autenticacion {
+  margin-top: 2rem;
+}
+
+.enlace-registro {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Animación de colores de fondo */
+@keyframes cambioColor {
+  0% { background-color: #6a11cb; }
+  25% { background-color: #2575fc; }
+  50% { background-color: #ff6a00; }
+  75% { background-color: #ff758c; }
+  100% { background-color: #6a11cb; }
+}

@@ -1,0 +1,66 @@
+<div class="contenedor-autenticacion-streaming">
+  <div class="capa-autenticacion-streaming">
+    <!-- Encabezado -->
+    <header class="encabezado-streaming">
+      <h1 class="marca-streaming">STREAMING</h1>
+    </header>
+
+    <!-- Panel de autenticación -->
+    <section class="panel-autenticacion">
+      <h2 class="titulo-autenticacion">Bienvenido de nuevo</h2>
+
+      <!-- Alerta de error -->
+      <div *ngIf="errorMessage" class="alerta-error-autenticacion">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="formulario-autenticacion">
+        <!-- Email -->
+        <label class="campo-formulario">
+          <input 
+            type="email" 
+            formControlName="email" 
+            placeholder="Correo electrónico"
+            class="entrada-formulario"
+            [class.input-invalid]="email?.invalid && email?.touched">
+          <small *ngIf="email?.invalid && email?.touched" class="error-formulario">
+            <span *ngIf="email?.errors?.['required']">Este campo es obligatorio</span>
+            <span *ngIf="email?.errors?.['email']">Formato de correo inválido</span>
+          </small>
+        </label>
+
+        <!-- Contraseña -->
+        <label class="campo-formulario">
+          <input 
+            type="password" 
+            formControlName="password" 
+            placeholder="Contraseña"
+            class="entrada-formulario"
+            [class.input-invalid]="password?.invalid && password?.touched">
+          <small *ngIf="password?.invalid && password?.touched" class="error-formulario">
+            <span *ngIf="password?.errors?.['required']">Este campo es obligatorio</span>
+            <span *ngIf="password?.errors?.['minlength']">Mínimo 8 caracteres</span>
+          </small>
+        </label>
+
+        <!-- Botón -->
+        <button 
+          type="submit" 
+          [disabled]="loginForm.invalid || isLoading"
+          class="boton-enviar-autenticacion">
+          <ng-container *ngIf="!isLoading">Iniciar sesión</ng-container>
+          <span *ngIf="isLoading" class="cargando-autenticacion"></span>
+        </button>
+      </form>
+
+      <!-- Extras -->
+      <div class="meta-autenticacion">
+        <div class="bloque-registro">
+          <p>¿No tienes cuenta? 
+            <a routerLink="/register" class="enlace-registro">Crea una gratis</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

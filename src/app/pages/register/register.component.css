@@ -1,0 +1,126 @@
+/* Estructura general */
+.contenedor-principal-streaming {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  justify-content: center; /* Centra el contenido en el contenedor */
+  align-items: center; /* Centra verticalmente */
+  background-color: rgb(8, 9, 61); /* Fondo rojo */
+}
+
+/* Lado izquierdo - formulario */
+.contenido-izquierdo-streaming {
+  width: 100%; /* Ocupa el 100% del contenedor */
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333;
+  background-color: #130634;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 450px; /* Limita el ancho máximo del formulario */
+  margin: 0 auto; /* Centra el formulario dentro del contenedor */
+}
+
+/* Título principal */
+.titulo-streaming {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+/* Banner de error */
+.banner-error-streaming {
+  background-color: #ffb3b3;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  color: red;
+  text-align: center;
+}
+
+/* Formulario */
+.formulario-streaming {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Campos de entrada */
+.campo-streaming {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  padding: 0.75rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border-color: #6a11cb;
+}
+
+/* Error en campos de entrada */
+.input-error-streaming {
+  border: 2px solid red;
+}
+
+.texto-error-streaming {
+  font-size: 0.85rem;
+  color: #b59fd1;
+  margin-top: 0.5rem;
+}
+
+/* Botón de envío */
+.boton-enviar-streaming {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #6a11cb;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.boton-enviar-streaming:hover {
+  transform: scale(1.05);
+}
+
+/* Indicador de carga */
+.cargando-streaming {
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+/* Animación del indicador de carga */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pie del formulario */
+.pie-formulario-streaming {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pie-formulario-streaming a {
+  color: #6a11cb;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.pie-formulario-streaming a:hover {
+  text-decoration: underline;
+}

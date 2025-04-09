@@ -1,0 +1,196 @@
+<!-- videos.component.html -->
+<div class="streaming-container">
+  <!-- Navbar -->
+  <div class="streaming-navbar">
+    <div class="streaming-logo">STREAMING</div>
+    <div class="streaming-user-menu">
+      <div class="streaming-user-info">
+        <span class="streaming-username">{{currentUser?.name}} {{currentUser?.lastname}}</span>
+        <span class="streaming-user-email">{{currentUser?.email}}</span>
+        <span *ngIf="offlineMode" class="streaming-offline-badge">OFFLINE</span>
+      </div>
+      <div class="upload-buttons">
+        <button class="streaming-upload-button" (click)="openUploadModal()" [disabled]="offlineMode">
+          Subir video
+        </button>
+      </div>
+      <button class="streaming-logout-button" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="streaming-videos-container">
+    <h2 class="streaming-videos-title">Todos los videos</h2>
+    
+    <div class="streaming-videos-grid">
+      <div *ngFor="let video of videos" class="streaming-video-card">
+        <div class="streaming-video-thumbnail" (click)="playVideo(video)">
+          <img [src]="getThumbnailUrl(video.url)" alt="Miniatura del video">
+          <div class="streaming-play-overlay">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+            </svg>
+          </div>
+          <div *ngIf="video.is_cached && isCacheValid(video)" class="streaming-offline-badge">OFFLINE</div>
+        </div>
+        <div class="streaming-video-info">
+          <h3 class="streaming-video-title">{{video.title}}</h3>
+          <p class="streaming-video-description">{{video.description}}</p>
+          <div class="streaming-video-actions">
+            <button *ngIf="!isYoutubeUrl(video.url) && (!video.is_cached || !isCacheValid(video))" 
+                    class="streaming-cache-button" (click)="cacheVideo(video, $event)">
+              Guardar offline
+            </button>
+            <button *ngIf="!isYoutubeUrl(video.url) && video.is_cached" 
+                    class="streaming-clear-cache-button" (click)="clearCache(video, $event)">
+              Eliminar caché
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para subir video local -->
+  <div *ngIf="showUploadModal" class="streaming-modal-overlay">
+    <div class="streaming-modal">
+      <h3 class="streaming-modal-title">Subir video local</h3>
+      <form (ngSubmit)="uploadVideo()" class="streaming-modal-form" enctype="multipart/form-data">
+        <div class="streaming-form-group">
+          <label>Título</label>
+          <input type="text" [(ngModel)]="uploadForm.title" name="title" required>
+        </div>
+        <div class="streaming-form-group">
+          <label>Descripción</label>
+          <textarea [(ngModel)]="uploadForm.description" name="description"></textarea>
+        </div>
+        
+        <div class="streaming-form-group">
+          <label>Archivo de video</label>
+          <input type="file" accept="video/*" (change)="onFileSelected($event)" name="file" required>
+        </div>
+        
+        <div *ngIf="uploadForm.file" class="streaming-form-group">
+          <p>Archivo seleccionado: {{uploadForm.file.name}}</p>
+        </div>
+        
+        <div *ngIf="uploadProgress !== null" class="streaming-form-group">
+          <div class="upload-progress">
+            <progress [value]="uploadProgress" max="100"></progress>
+            <span>{{uploadProgress}}%</span>
+          </div>
+        </div>
+        
+        <div class="streaming-modal-buttons">
+          <button type="button" class="streaming-modal-cancel" 
+                  (click)="closeUploadModal()" [disabled]="uploadInProgress">
+            Cancelar
+          </button>
+          <button type="submit" class="streaming-modal-submit" 
+                  [disabled]="uploadInProgress || !uploadForm.file">
+            {{uploadInProgress ? 'Subiendo...' : 'Subir video'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para agregar video de YouTube -->
+  <div *ngIf="showYoutubeModal" class="streaming-modal-overlay">
+    <div class="streaming-modal">
+      <h3 class="streaming-modal-title">Agregar video de YouTube</h3>
+      <form (ngSubmit)="addYouTubeVideo()" class="streaming-modal-form">
+        <div class="streaming-form-group">
+          <label>Título</label>
+          <input type="text" [(ngModel)]="youtubeForm.title" name="title" required>
+        </div>
+        <div class="streaming-form-group">
+          <label>Descripción</label>
+          <textarea [(ngModel)]="youtubeForm.description" name="description"></textarea>
+        </div>
+        <div class="streaming-form-group">
+          <label>URL de YouTube</label>
+          <input type="text" [(ngModel)]="youtubeForm.url" name="url" required placeholder="https://www.youtube.com/watch?v=...">
+        </div>
+        
+        <div class="streaming-modal-buttons">
+          <button type="button" class="streaming-modal-cancel" (click)="closeYoutubeModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="streaming-modal-submit">
+            Agregar video
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para reproducir video -->
+  <div *ngIf="showVideoModal" class="streaming-video-modal-overlay" (click)="closeVideoModal()">
+    <div class="streaming-video-modal-content" (click)="$event.stopPropagation()">
+      <button class="streaming-video-modal-close" (click)="closeVideoModal()">
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+        </svg>
+      </button>
+      
+      <div class="streaming-video-player">
+        <iframe 
+          *ngIf="safeVideoUrl"
+          [src]="safeVideoUrl" 
+          frameborder="0" 
+          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+      
+      <div class="streaming-video-modal-info" *ngIf="currentVideo">
+        <h3>{{currentVideo.title}}</h3>
+        <p>{{currentVideo.description}}</p>
+        <div *ngIf="!isYoutubeUrl(currentVideo.url)">
+          <button *ngIf="!currentVideo.is_cached || !isCacheValid(currentVideo)" 
+                  class="streaming-cache-button" (click)="cacheVideo(currentVideo)">
+            Guardar para ver offline
+          </button>
+          <button *ngIf="currentVideo.is_cached" 
+                  class="streaming-clear-cache-button" (click)="clearCache(currentVideo)">
+            Eliminar caché
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de videos recomendados -->
+  <div class="streaming-recommended-section">
+    <h2 class="streaming-videos-title">Videos recomendados</h2>
+    
+    <div class="streaming-recommended-grid">
+      <div *ngFor="let video of recommendedVideos" class="streaming-recommended-card">
+        <div class="streaming-video-thumbnail">
+          <img [src]="video.url" alt="Miniatura del video recomendado">
+        </div>
+        <div class="streaming-video-info">
+          <h3 class="streaming-video-title">{{video.title}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de tendencias -->
+  <div class="streaming-trending-section">
+    <h2 class="streaming-videos-title">Tendencias de la semana</h2>
+    
+    <div class="streaming-recommended-grid">
+      <div *ngFor="let video of trendingVideos" class="streaming-recommended-card">
+        <div class="streaming-video-thumbnail">
+          <img [src]="video.url" alt="Miniatura de tendencia">
+        </div>
+        <div class="streaming-video-info">
+          <h3 class="streaming-video-title">{{video.title}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
